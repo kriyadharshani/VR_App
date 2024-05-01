@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VR Experience</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+</head>
+<body>
+    <a-scene>
+        <!-- 360-degree video with animation -->
+        <a-videosphere src="assets/rc hub_new.mp4" rotation="0 180 0" visible="false">
+            <a-animation attribute="rotation" to="0 360 0" dur="10000" easing="linear" repeat="indefinite"></a-animation>
+            <a-entity gltf-model="url(animation_model.glb)" scale="0.5 0.5 0.5" position="0 1 -5" rotation="0 180 0"></a-entity>
+        </a-videosphere>
+
+        <!-- Button to switch to video -->
+        <a-box color="red" position="-2 1 -3" scale="0.5 0.5 0.5" onclick="switchToVideo()" animation__click="property: scale; to: 0.4 0.4 0.4; dur: 200; easing: easeInOutQuad; loop: 0">
+            <a-text value="360° Video" rotation="0 90 0" position="0 1 1" scale="1 1 1"></a-text>
+        </a-box>
+
+        <!-- Button to go back to main menu -->
+        <a-box color="green" position="2 1 -3" scale="0.5 0.5 0.5" onclick="goToMainMenu()" animation__click="property: scale; to: 0.4 0.4 0.4; dur: 200; easing: easeInOutQuad; loop: 0">
+            <a-text value="Main Menu" rotation="0 90 0" position="0 1 1" scale="1 1 1"></a-text>
+        </a-box>
+
+        <!-- Camera and cursor -->
+        <a-camera position="0 1.6 0">
+            <a-cursor color="red"></a-cursor>
+        </a-camera>
+    </a-scene>
+
+    <script>
+        var isVideoPlaying = false;
+
+        // Function to switch to video
+        function switchToVideo() {
+            var video = document.querySelector('a-videosphere');
+            video.setAttribute('visible', 'true');
+            isVideoPlaying = true;
+        }
+
+        // Function to go back to main menu
+        function goToMainMenu() {
+            window.location.href = "index.html"; // Replace "index.html" with the path to your main menu page
+        }
+
+        // Toggle between video and panoramic view on cursor click
+        document.querySelector('a-cursor').addEventListener('click', function() {
+            if (isVideoPlaying) {
+                switchToPanoramic();
+            } else {
+                switchToVideo();
+            }
+        });
+    </script>
+</body>
+</html>
